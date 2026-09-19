@@ -1,0 +1,42 @@
+networks:
+  ai_network:
+    driver: bridge
+
+services:
+  cfa:
+    image: cfa:2.0
+    container_name: cfa
+    restart: always
+    runtime: nvidia
+    privileged: true
+    volumes:
+      - d:/AI/cfa/results:/code/results
+      - d:/AI/cfa/error:/code/error
+      - d:/AI/cfa/logs:/code/logs
+    environment:
+      - TQDM_DISABLE=1 # 全局关闭进度条显示
+      - PYTHONUNBUFFERED=1 # 取消标准输出缓冲
+      - CUDA_VISIBLE_DEVICES=0
+      - NVIDIA_VISIBLE_DEVICES=0
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128,garbage_collection_threshold:0.7
+      - TRANSFORMERS_OFFLINE=1
+      - HF_HUB_OFFLINE=1
+      - REPO_URL=""
+      - GITHUB_TOKEN=""
+      - ENABLE_GIT_PULL=false
+      - DEBUG=true
+    tty: true  # 分配伪终端
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+              device_ids: ['0']
+    shm_size: '8g'
+    ports:
+      - '8121:8121'
+    command: python /app/api.py
+    networks:
+      - ai_network
