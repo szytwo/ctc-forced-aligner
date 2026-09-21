@@ -6,6 +6,7 @@ import torch
 from wdd.AudioProcessor import AudioProcessor
 
 os.environ["HF_HUB_CACHE"] = "./checkpoints/hf_cache"
+os.environ["HF_HUB_OFFLINE"] = "1"
 
 import argparse
 import json
@@ -134,7 +135,7 @@ def align_audio(
     audio_path: str,
     text_path: str,
     language: str,
-    romanize: bool = False,
+    romanize: bool = True,
     split_size: str = "word",
     star_frequency: str = "edges",
     merge_threshold: float = 0.00,
@@ -268,7 +269,7 @@ async def process_audio(
     audio: UploadFile = File(..., description="上传的音频文件"),
     text: str = Form(..., description="提供的文本提示，必填"),
     language: str = Form(default="", description="语言类型，ISO 639-3代码"),
-    romanize: bool = Form(default=False, description="是否进行罗马化"),
+    romanize: bool = Form(default=True, description="是否进行罗马化"),
     split_size: str = Form(
         default="word", description="分割大小（sentence, word, char）"
     ),
