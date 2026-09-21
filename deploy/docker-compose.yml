@@ -37,6 +37,6 @@ services:
     shm_size: '8g'
     ports:
       - '8121:8121'
-    command: python /app/api.py
+    command: python /code/api.py
     networks:
       - ai_network
