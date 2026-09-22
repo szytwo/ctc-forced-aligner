@@ -174,18 +174,21 @@ def align_audio(
     results = postprocess_results(text_starred, spans, stride, scores, merge_threshold)
 
     # write the results to a file
-    with open(f"{os.path.splitext(audio_path)[0]}_align.txt", "w") as f:
+    save_txt = f"{os.path.splitext(audio_path)[0]}_align.txt"
+    with open(save_txt, "w", encoding="utf-8") as f:
         for result in results:
             f.write(f"{result['start']}-{result['end']}: {result['text']}\n")
 
     # write the results to a json file with the whole text and each segment
-    with open(f"{os.path.splitext(audio_path)[0]}_align.json", "w") as f:
+    save_json = f"{os.path.splitext(audio_path)[0]}_align.json"
+    with open(save_json, "w", encoding="utf-8") as f:
         json.dump(
             {
                 "text": text,
                 "segments": results,
             },
             f,
+            ensure_ascii=False,
             indent=4,
         )
 
