@@ -4,7 +4,7 @@ networks:
 
 services:
   cfa:
-    image: cfa:2.0
+    image: ctc-forced-aligner:2.0
     container_name: cfa
     restart: always
     runtime: nvidia
