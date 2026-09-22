@@ -294,7 +294,7 @@ async def process_audio(
         logging.info(
             f"text:\n\n{text}\n\n"
             f"language: {language},romanize: {romanize},split_size: {split_size},star_frequency: {star_frequency},merge_threshold: {merge_threshold}"
-            f"alignment_model: {alignment_model},batch_size: {batch_size},window_size: {window_size},context_size: {context_size}"
+            f"alignment_model: {alignment_model},batch_size: {batch_size},window_size: {window_size},context_size: {context_size}\n"
         )
 
         prefix = ""
