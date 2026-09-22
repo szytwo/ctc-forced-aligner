@@ -114,16 +114,12 @@ def clear_cuda_cache():
             torch.cuda.reset_peak_memory_stats()
             # 打印显存日志
             logging.info(
-                f"[GPU Memory] Allocated: {torch.cuda.memory_allocated() / (1024 ** 2):.2f} MB"
+                f"[GPU Memory] Allocated: {torch.cuda.memory_allocated() / (1024 ** 2):.2f} MB, "
+                f"Max Allocated: {torch.cuda.max_memory_allocated() / (1024 ** 2):.2f} MB"
             )
             logging.info(
-                f"[GPU Memory] Max Allocated: {torch.cuda.max_memory_allocated() / (1024 ** 2):.2f} MB"
-            )
-            logging.info(
-                f"[GPU Memory] Reserved: {torch.cuda.memory_reserved() / (1024 ** 2):.2f} MB"
-            )
-            logging.info(
-                f"[GPU Memory] Max Reserved: {torch.cuda.max_memory_reserved() / (1024 ** 2):.2f} MB"
+                f"[GPU Memory] Reserved: {torch.cuda.memory_reserved() / (1024 ** 2):.2f} MB, "
+                f"Max Reserved: {torch.cuda.max_memory_reserved() / (1024 ** 2):.2f} MB"
             )
     except ImportError:
         logging.warning("PyTorch is not installed. Skipping CUDA memory cleanup.")
