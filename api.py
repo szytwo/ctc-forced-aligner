@@ -16,9 +16,7 @@ from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI, File, Form, UploadFile
-from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse, PlainTextResponse
-from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware  # 引入 CORS中间件模块
 
 from ctc_forced_aligner.alignment_utils import (
@@ -285,7 +283,7 @@ async def process_audio(
     context_size: int = Form(default=2, description=" 上下文大小（秒）"),
 ):
     """
-    处理中文分句。
+    处理音频与文本对齐。
     """
     response = AlignAudioResponse()
 
