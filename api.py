@@ -179,6 +179,8 @@ def align_audio(
         for result in results:
             f.write(f"{result['start']}-{result['end']}: {result['text']}\n")
 
+    logging.info(f"save txt: {save_txt}")
+
     # write the results to a json file with the whole text and each segment
     save_json = f"{os.path.splitext(audio_path)[0]}_align.json"
     with open(save_json, "w", encoding="utf-8") as f:
@@ -191,6 +193,8 @@ def align_audio(
             ensure_ascii=False,
             indent=4,
         )
+
+    logging.info(f"save json: {save_json}")
 
     segment_list: list[AlignAudioSegment] = []
     word_list: list[AlignAudioWord] = []
