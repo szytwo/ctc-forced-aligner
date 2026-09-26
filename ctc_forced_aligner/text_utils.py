@@ -218,6 +218,37 @@ def preprocess_text(
     return tokens_starred, text_starred
 
 
+def normalize_segment_times(segments):
+    """
+    修复相邻 segment 的时间重叠。
+
+    例如：
+
+        A: 0.18 - 0.24
+        B: 0.22 - 0.30
+
+    修复为：
+
+        A: 0.18 - 0.23
+        B: 0.23 - 0.30
+
+    不删除字符，只调整边界。
+    """
+    if len(segments) <= 1:
+        return
+
+    for i in range(len(segments) - 1):
+        current = segments[i]
+        next_segment = segments[i + 1]
+
+        # 当前没有重叠
+        if current["end"] <= next_segment["start"]:
+            continue
+
+        # 出现 overlap
+        current["end"] = next_segment["start"]
+
+
 def merge_zero_duration_segments(segments):
     """
     合并 zero-duration 字符。
@@ -430,16 +461,13 @@ def postprocess_results(
         }
         results.append(sample)
 
-    # ======================================================
-    # 第一步：处理 zero-duration 字符 + 时间一起合并
-    # ======================================================
-
+    # 处理 zero-duration 字符 + 时间一起合并
     results = merge_zero_duration_segments(results)
-
-    # ======================================================
-    # 第二步：处理 threshold 字符 + 时间一起合并
-    # ======================================================
-
+    # 处理 overlap
+    normalize_segment_times(results)
+    # 处理 threshold 字符 + 时间一起合并
     merge_segments(results, merge_threshold)
+    # 处理 overlap
+    normalize_segment_times(results)
 
     return results
