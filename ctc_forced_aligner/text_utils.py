@@ -384,7 +384,7 @@ def merge_segments(segments, threshold=0.00):
 
         previous = results[-1]
 
-        gap = segment["start"] - previous["end"]
+        gap = segment["end"] - segment["start"]
 
         if gap < threshold:
             # 合并字符
